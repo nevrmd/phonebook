@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -29,6 +30,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     compileOptions {
@@ -41,13 +43,14 @@ android {
 }
 
 dependencies {
-    // ViewModel, LiveData, Coroutines, Room
+    // ViewModel, LiveData, Coroutines, Room, Annotation
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     annotationProcessor(libs.androidx.room.compiler)
+    kapt(libs.androidx.lifecycle.compiler)
     // Default
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

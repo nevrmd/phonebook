@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Phonebook</string>
+    <string name="etNumber">Phone Number</string>
+    <string name="etName">Name</string>
+    <string name="btnTop">Del</string>
+    <string name="btnBottom">Save</string>
+    <string name="tvName">Name</string>
+    <string name="tvPhone">+7 000 000 0000</string>
 </resources>

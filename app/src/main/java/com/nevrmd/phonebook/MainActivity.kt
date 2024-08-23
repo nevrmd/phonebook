@@ -36,10 +36,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.rvPhoneCards.layoutManager = LinearLayoutManager(this)
-        DisplayPhoneCardsList()
+        displayPhoneCardsList()
     }
 
-    private fun DisplayPhoneCardsList() {
+    private fun displayPhoneCardsList() {
         phoneCardViewModel.phoneCards.observe(this, Observer {
             binding.rvPhoneCards.adapter = CardRecyclerViewAdapter(
                 it

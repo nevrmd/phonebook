@@ -16,7 +16,7 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
     private var isUpdateOrDelete = false
     private lateinit var phoneCardToUpdateOrDelete: PhoneCard
 
-    // These contain liveData of two editTexts
+    // These contain liveData of two editTexts and state of the buttons
     @Bindable
     val inputName = MutableLiveData<String?>()
 
@@ -31,7 +31,7 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
 
     init {
         saveOrUpdateButtonText.value = "Save"
-        clearAllOrDeleteButtonText.value = "Clear All"
+        clearAllOrDeleteButtonText.value = "Clear"
     }
 
     fun saveOrUpdate() {
@@ -42,7 +42,7 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
             update(phoneCardToUpdateOrDelete)
         } else {
             // Save
-            // The vals are non-nullable since we don't need it in our database
+            // The vals are non-nullable since we don't need it in the database
             val name = inputName.value!!
             val phoneNumber = inputPhoneNumber.value!!.toInt()
             insert(PhoneCard(0, name, phoneNumber))
@@ -74,7 +74,7 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         inputPhoneNumber.value = null
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
-        clearAllOrDeleteButtonText.value = "Clear All"
+        clearAllOrDeleteButtonText.value = "Clear"
     }
 
     fun delete(phoneCard: PhoneCard) = viewModelScope.launch {
@@ -84,7 +84,7 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         inputPhoneNumber.value = null
         isUpdateOrDelete = false
         saveOrUpdateButtonText.value = "Save"
-        clearAllOrDeleteButtonText.value = "Clear All"
+        clearAllOrDeleteButtonText.value = "Clear"
     }
 
     fun initUpdateAndDelete(phoneCard: PhoneCard) {
@@ -92,8 +92,8 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         inputPhoneNumber.value = phoneCard.phoneNumber.toString()
         isUpdateOrDelete = true
         phoneCardToUpdateOrDelete = phoneCard
-        saveOrUpdateButtonText.value = "Update"
-        clearAllOrDeleteButtonText.value = "Delete"
+        saveOrUpdateButtonText.value = "Upd"
+        clearAllOrDeleteButtonText.value = "Del"
     }
 
     // Nothing is going to be here since we use Observable interface

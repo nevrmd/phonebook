@@ -29,28 +29,32 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
     @Bindable
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
 
+    // Setting default state of the buttons
     init {
         saveOrUpdateButtonText.value = "Save"
         clearAllOrDeleteButtonText.value = "Clear"
     }
-
+    // Saves or updates info in the database based on the buttons state
+    // Delete is when cardView is not pressed
     fun saveOrUpdate() {
         if (isUpdateOrDelete) {
             // Update
-            phoneCardToUpdateOrDelete.name = inputName.value!!
-            phoneCardToUpdateOrDelete.phoneNumber = inputPhoneNumber.value?.toInt()!!
+            phoneCardToUpdateOrDelete.name = inputName.value.toString()
+            phoneCardToUpdateOrDelete.phoneNumber = inputPhoneNumber.value?.toLong()
             update(phoneCardToUpdateOrDelete)
         } else {
             // Save
             // The vals are non-nullable since we don't need it in the database
-            val name = inputName.value!!
-            val phoneNumber = inputPhoneNumber.value!!.toInt()
+            val name = inputName.value.toString()
+            val phoneNumber = inputPhoneNumber.value?.toLong()
             insert(PhoneCard(0, name, phoneNumber))
             inputName.value = null
             inputPhoneNumber.value = null
         }
     }
 
+    // Clears all or deletes specific info in the database based on the buttons state
+    // Delete is when cardView is not pressed
     fun clearAllOrDelete() {
         if (isUpdateOrDelete) {
             delete(phoneCardToUpdateOrDelete)
@@ -59,17 +63,20 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         }
     }
 
+    // Insert
     private fun insert(phoneCard: PhoneCard) = viewModelScope.launch {
         repository.insert(phoneCard)
     }
 
+    // Clear all
     private fun clearAll() = viewModelScope.launch {
         repository.deleteAll()
     }
 
+    // Update
     private fun update(phoneCard: PhoneCard) = viewModelScope.launch {
         repository.update(phoneCard)
-        // Resetting the buttons and fields
+        // Resetting the buttons and fields when the card update is made
         inputName.value = null
         inputPhoneNumber.value = null
         isUpdateOrDelete = false
@@ -77,9 +84,10 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         clearAllOrDeleteButtonText.value = "Clear"
     }
 
-    fun delete(phoneCard: PhoneCard) = viewModelScope.launch {
+    // Delete
+    private fun delete(phoneCard: PhoneCard) = viewModelScope.launch {
         repository.delete(phoneCard)
-        // Resetting the buttons and fields
+        // Resetting the buttons and fields when the card gets deleted
         inputName.value = null
         inputPhoneNumber.value = null
         isUpdateOrDelete = false
@@ -87,6 +95,8 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
         clearAllOrDeleteButtonText.value = "Clear"
     }
 
+    // Initiating update or delete by filling out the editTexts and changing the buttons state
+    // Used in listItemClicked in MainActivity
     fun initUpdateAndDelete(phoneCard: PhoneCard) {
         inputName.value = phoneCard.name
         inputPhoneNumber.value = phoneCard.phoneNumber.toString()

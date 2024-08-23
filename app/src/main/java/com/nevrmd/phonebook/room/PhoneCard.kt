@@ -8,5 +8,5 @@ data class PhoneCard(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     var name: String,
-    var phoneNumber: Int
+    var phoneNumber: Long?
 )

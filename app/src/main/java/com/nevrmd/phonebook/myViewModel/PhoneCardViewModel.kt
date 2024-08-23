@@ -1,4 +1,4 @@
-package com.nevrmd.phonebook.viewModel
+package com.nevrmd.phonebook.myViewModel
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
@@ -35,16 +35,28 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
     }
 
     fun saveOrUpdate() {
-        // The vals are non-nullable since we don't need it in our database
-        val name = inputName.value!!
-        val phoneNumber = inputPhoneNumber.value!!
-        insert(PhoneCard(0, name, phoneNumber.toInt()))
-        inputName.value = null
-        inputPhoneNumber.value = null
+        if (isUpdateOrDelete) {
+            // Update
+            phoneCardToUpdateOrDelete.name = inputName.value!!
+            phoneCardToUpdateOrDelete.phoneNumber = inputPhoneNumber.value?.toInt()!!
+            update(phoneCardToUpdateOrDelete)
+        } else {
+            // Save
+            // The vals are non-nullable since we don't need it in our database
+            val name = inputName.value!!
+            val phoneNumber = inputPhoneNumber.value!!.toInt()
+            insert(PhoneCard(0, name, phoneNumber))
+            inputName.value = null
+            inputPhoneNumber.value = null
+        }
     }
 
     fun clearAllOrDelete() {
-        clearAll()
+        if (isUpdateOrDelete) {
+            delete(phoneCardToUpdateOrDelete)
+        } else {
+            clearAll()
+        }
     }
 
     private fun insert(phoneCard: PhoneCard) = viewModelScope.launch {
@@ -57,10 +69,31 @@ class PhoneCardViewModel(private val repository: PhoneCardRepository) : ViewMode
 
     private fun update(phoneCard: PhoneCard) = viewModelScope.launch {
         repository.update(phoneCard)
+        // Resetting the buttons and fields
+        inputName.value = null
+        inputPhoneNumber.value = null
+        isUpdateOrDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
     }
 
     fun delete(phoneCard: PhoneCard) = viewModelScope.launch {
         repository.delete(phoneCard)
+        // Resetting the buttons and fields
+        inputName.value = null
+        inputPhoneNumber.value = null
+        isUpdateOrDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
+    }
+
+    fun initUpdateAndDelete(phoneCard: PhoneCard) {
+        inputName.value = phoneCard.name
+        inputPhoneNumber.value = phoneCard.phoneNumber.toString()
+        isUpdateOrDelete = true
+        phoneCardToUpdateOrDelete = phoneCard
+        saveOrUpdateButtonText.value = "Update"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     // Nothing is going to be here since we use Observable interface

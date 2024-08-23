@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class PhoneCard(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
-    val phoneNumber: Int
+    var name: String,
+    var phoneNumber: Int
 )

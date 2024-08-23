@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
 <!--    Enables DataBinding    -->
     <data>
         <variable
             name="phoneCardViewModel"
-            type="com.nevrmd.phonebook.viewModel.PhoneCardViewModel"/>
+            type="com.nevrmd.phonebook.myViewModel.PhoneCardViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background">
+        android:background="@drawable/gradient_background"
+        tools:context=".MainActivity">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -46,7 +46,7 @@
                 android:inputType="text" />
 
             <EditText
-                android:text="@={phoneCardViewModel.phoneNumber}"
+                android:text="@={phoneCardViewModel.inputPhoneNumber}"
                 android:id="@+id/etNumber"
                 android:layout_width="250dp"
                 android:layout_height="60dp"
@@ -61,6 +61,7 @@
                 android:inputType="phone" />
 
             <Button
+                android:onClick="@{()->phoneCardViewModel.saveOrUpdate()}"
                 android:id="@+id/btnTop"
                 android:backgroundTint="#E3D4AD"
                 android:layout_width="100dp"
@@ -70,12 +71,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/btnTop"
+                android:text="@={phoneCardViewModel.saveOrUpdateButtonText}"
                 android:textColor="#49454f"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <Button
+                android:onClick="@{()->phoneCardViewModel.clearAllOrDelete()}"
                 android:id="@+id/btnBottom"
                 android:backgroundTint="#E3D4AD"
                 android:layout_width="100dp"
@@ -85,7 +87,7 @@
                 android:layout_marginTop="90dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/btnBottom"
+                android:text="@={phoneCardViewModel.clearAllOrDeleteButtonText}"
                 android:textColor="#49454f"
                 android:textSize="20sp"
                 android:textStyle="bold" />

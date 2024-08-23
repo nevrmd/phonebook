@@ -6,5 +6,5 @@
 - Recycler View
 - LiveData
 # Screenshots
-![Two saved phone cards (Save and Clear)](https://github.com/user-attachments/assets/623ead59-080a-4b91-a1d2-159f476800e7)
-![When clicked on one of the phone cards (Upd and Del)](https://github.com/user-attachments/assets/ebbfbf92-2874-4816-ad2b-ac974ed4fc1c)
+![main](https://github.com/user-attachments/assets/623ead59-080a-4b91-a1d2-159f476800e7 "Two saved phone cards (Save and Clear)")
+![edit](https://github.com/user-attachments/assets/ebbfbf92-2874-4816-ad2b-ac974ed4fc1c "When clicked on one of the phone cards (Upd and Del)")
